@@ -20,5 +20,17 @@ namespace TeamMentor.CoreLib
                 ex.log();
             }
         }
+
+        public static void openScriptEditor()
+        {
+            try
+            {
+                "REPL Script Editor".popupWindow().add_Script();
+            }
+            catch (Exception ex)
+            {
+                ex.log();
+            }
+        }
     }
 }

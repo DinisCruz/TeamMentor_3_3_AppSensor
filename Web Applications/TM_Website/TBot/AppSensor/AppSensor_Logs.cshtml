@@ -38,7 +38,12 @@ var AppSensorIntrusions = intrusionsObserved.java_Invoke("toArray").getElementsF
   @foreach(var appSensorIntrusion in @AppSensorIntrusions)
   {
     <tr>
-      <td>@appSensorIntrusion.java_Invoke("getSecurityExceptionLogMessage")</td>
+        <td>@appSensorIntrusion.java_Invoke("getSecurityExceptionLogMessage")</td>
+        <td>@appSensorIntrusion.java_Invoke("getEventCode")</td>
+        <td>@appSensorIntrusion.java_Invoke("getUser")</td>
+        <td>@appSensorIntrusion.java_Invoke("getLocation")</td>
+
+
       <td>
           @appSensorIntrusion.java_Invoke("getTimeStamp").str();
       </td>

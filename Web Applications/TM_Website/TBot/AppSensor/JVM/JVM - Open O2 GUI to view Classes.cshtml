@@ -1,0 +1,16 @@
+﻿@using O2.DotNetWrappers.ExtensionMethods
+@using O2.External.SharpDevelop.ExtensionMethods
+<h2>Opening up O2 Gui to view Java classes</h2>
+
+@{
+    var result = "PoC - Jni4Net - Classes, Methods, Fields in target.h2".local().executeH2Script().str();
+}
+@{if (result == "done")
+{
+    <div class ="alert alert-success">All good, take a look at the new Windows Form that just oppened up</div>
+}
+else
+{
+    <div class ="alert alert-error">script 'PoC - Jni4Net - Classes, Methods, Fields in target.h2' failed to load</div>
+}
+}

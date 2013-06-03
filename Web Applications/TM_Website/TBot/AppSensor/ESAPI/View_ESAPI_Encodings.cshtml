@@ -1,0 +1,93 @@
+﻿<script>
+    //var TMUser =angular.module('TMUser',[]);
+
+    function EditObject($scope,$http)
+    {        
+        var encodeData = function(encodeMethod, onSuccess)
+        {
+            var url = "/Tbot_Utils/Esapi_Encode.aspx?method=" + encodeMethod + "&payload=" + $scope.Payload;
+            $http.get(url).success(onSuccess);            
+        };      
+
+        $scope.encodePayload = function(methodToEncode)
+        {
+            encodeData(methodToEncode.name, function(result)
+                {
+                    methodToEncode.result = result;
+                });            
+        };
+        
+        $scope.Payload = "<h1>this is an example<h1><a href='aaaa'>in an anchor</a>";
+
+        $scope.EncodingMethods = 
+            [
+                { name: "encodeForHTML" },
+                { name: "encodeForHTMLAttribute" },
+                { name: "encodeForCSS" },
+                { name: "encodeForJavaScript" },
+                { name: "encodeForVBScript" },
+                //{ name: "encodeForSQL" },
+                //{ name: "encodeForOS" },
+                { name: "encodeForLDAP" },
+                { name: "encodeForDN" },
+                { name: "encodeForHTML" },
+                { name: "encodeForXPath" },
+                { name: "encodeForXML" },
+                { name: "encodeForXMLAttribute" },
+                { name: "encodeForURL" },
+                //{ name: "encodeForBase64" }
+            ];
+        $scope.reEncodeAll = function()
+        {
+            $scope.EncodingMethods.forEach(function(item)
+                {
+                    console.log($scope.encodePayload(item));
+                });
+        };
+
+        $scope.reEncodeAll();
+
+
+    };   
+    
+</script>
+
+
+
+<h4>Editing TMServer.Config file (and preview)</h4>
+
+<br/>
+<br/>
+
+<div ng-controller="EditObject" ng-submit="update(userData)">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                <div class ="alert alert-success">
+                    Payload            
+                </div>
+                <textarea ng-model="Payload"  rows="15" class="span13" >        </textarea>
+            </div>
+            <div class="span8">
+                <div class ="alert alert-success">
+                    ESAPI Encodings        
+                </div>
+                <button class="btn btn-success" ng-click="reEncodeAll()">Invoke All Encode methods</button>       
+                <br/></br/>                   
+                <div class="container-fluid">
+                    <div ng-repeat="EncodingMethod in EncodingMethods">
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <button class="btn btn-info" ng-click="encodePayload(EncodingMethod)">{{EncodingMethod.name}}</button>                          
+                            </div>
+                            <div class="span8">                      
+                                <pre>{{EncodingMethod.result}}</pre>
+                            </div>
+                            <br/><br/>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </div>    
+</div>

@@ -728,6 +728,7 @@
     <Content Include="TBot\AppSensor\AppSensor_Logs.cshtml" />
     <Content Include="TBot\AppSensor\Setup AppSensor.cshtml" />
     <Content Include="TBot\AppSensor\Create_AppSensor_Exception.cshtml" />
+    <Content Include="TBot\AppSensor\ESAPI\View_ESAPI_Encodings.cshtml" />
     <None Include="_AppSensor_Jars\ESAPI.properties" />
     <None Include="_AppSensor_Jars\validation.properties" />
   </ItemGroup>
@@ -743,6 +744,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TBot\AppSensor\ESAPI\Misc ESAPI scritps.cs" />
+    <Content Include="TBot_Utils\Esapi_Encode.aspx" />
+    <Content Include="TBot\AppSensor\JVM\JVM - Open O2 GUI to view Classes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
