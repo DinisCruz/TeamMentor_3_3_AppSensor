@@ -1,0 +1,60 @@
+﻿@using O2.DotNetWrappers.ExtensionMethods
+@using O2.XRules.Database.APIs
+@using TeamMentor.CoreLib
+
+
+@{
+    var jni4Net = new API_Jni4Net();
+    jni4Net.setUpBride();
+    
+    var jarsInClassPath = jni4Net.systemClassLoader().jarsInClassPath().sort();
+    var loadedClasses = jni4Net.java_From_ClassLoader_get_Loaded_Classes();    
+
+    var webRoot = TMConfig.WebRoot.replace("\\","/");
+}
+
+<h2>Jars in Class Path</h2>
+<div class="well well-large">
+    This page will show all the Jars and classes that are currently loaded in the JVM
+</div>
+
+<b>Current WebRoot:</b> @webRoot
+
+<br/>
+<h4>@jarsInClassPath.size() Jars</h4>
+<ul>
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th>Virtual Path to Jar File</th>   
+        </tr>
+
+        @foreach (var file in jarsInClassPath)
+        {
+            <tr>
+                <td>@file.urlDecode().remove(webRoot) </td>   
+            </tr>
+        }
+    </table>
+</ul>
+
+<h4>@loadedClasses.size() Classes</h4>
+<ul>
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th>FullName</th>   
+            <th>PackageName</th>   
+            <th>ShortName</th>   
+            <th>SuperClass</th>   
+        </tr>
+
+        @foreach (var loadedClass in loadedClasses)
+        {
+            <tr>
+                <td>@loadedClass.FullName</td>
+                <td>@loadedClass.PackageName</td>
+                <td>@loadedClass.ShortName</td>
+                <td>@loadedClass.SuperClass</td>            
+            </tr>
+        }
+    </table>
+</ul>

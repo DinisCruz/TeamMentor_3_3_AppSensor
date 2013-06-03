@@ -1,0 +1,55 @@
+﻿@using O2.DotNetWrappers.ExtensionMethods
+@using O2.XRules.Database.APIs
+@using TeamMentor.CoreLib
+
+<h2>Setting up AppSensor</h2>
+
+<div class="well well-large">
+This page will load up all dependencies required to use AppSensor in this .NET application
+</div>
+<h4>Setting up Jni4Net Bridje (and loading up the JVM)</h4>
+
+@{   
+    var jni4Net = new API_Jni4Net();
+    jni4Net.setUpBride();
+}
+<div class ="alert alert-success">
+    JVM is up
+</div>
+<H4>Loading AppSensor Jars</H4>
+<div class ="alert alert-success">
+Jars Loaded:
+    <ul>
+        @{
+            var webRoot = TMConfig.WebRoot;
+  
+    
+            var jarsLocations = webRoot.pathCombine(@"\_AppSensor_Jars");
+            var jars = jarsLocations.files("*.jar");
+            foreach(var jar in jars)
+            {                
+                jar.addJarToSystemClassLoader();
+                @:<span><li>@jar.remove(webRoot)</li></span>
+            }
+            //return jars.first().java_Jar_Classes();
+            //return jars.first().str();
+            
+ 
+            //    var jarsInClassPath = jni4Net.systemClassLoader().jarsInClassPath();
+    
+        }
+    </ul>
+</div>
+
+<h4>Testing AppSensorIntrusionDetector class</h4>
+@{
+    var intructionDetector = "org.owasp.appsensor.intrusiondetection.AppSensorIntrusionDetector".java_Class();
+}
+@if (intructionDetector.isNull())
+{
+    @:<div class ="alert alert-danger">Failed to load org.owasp.appsensor.intrusiondetection.AppSensorIntrusionDetector class</div>
+}
+else
+{
+    @:<div class ="alert alert-success">Loaded org.owasp.appsensor.intrusiondetection.AppSensorIntrusionDetector class OK</div>
+}

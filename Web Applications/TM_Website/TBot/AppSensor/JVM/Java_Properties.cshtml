@@ -1,0 +1,32 @@
+
+@using net.sf.jni4net.jni
+@using java.lang
+@using java.net
+@using net.sf.jni4net.adaptors
+@using O2.DotNetWrappers.ExtensionMethods
+@using O2.XRules.Database.APIs
+@{
+    //var assembly = "API_Jni4Net.dll".assembly();
+    var jni4Net = new API_Jni4Net();
+    jni4Net.setUpBride();
+    var classLoader = jni4Net.systemClassLoader();
+    var javaSystemProperties = java.lang.System.getProperties();
+
+}
+
+<h4>Java Properties (from java.lang.System.getProperties)</h4>
+<table class="table table-striped table-condensed">
+  <tr>
+    <th>Key</th>
+    <th>Value</th>
+  </tr>
+
+  @foreach (java.lang.String key in Adapt.Enumeration(javaSystemProperties.keys()))
+  {
+  <tr>
+    <td>@key </td>
+    <td>@java.lang.System.getProperty(key)</td>
+  </tr>
+  }
+</table>
+//@javaSystemProperties

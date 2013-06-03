@@ -1,0 +1,47 @@
+@using System.Linq
+@using net.sf.jni4net.jni
+@using java.lang
+@using java.net
+@using net.sf.jni4net.adaptors
+@using O2.DotNetWrappers.ExtensionMethods
+@using O2.XRules.Database.APIs
+@{
+
+    //var ex   = System.Web.HttpContext.Current.Request["ex"];
+    var appSensorException = (string)"System.Web".assembly().type("HttpContext").prop("Current").prop("Request").invoke("get_Item", "ex");
+
+
+    var jni4Net = new API_Jni4Net();
+    jni4Net.setUpBride();
+    
+    var intructionDetector = "org.owasp.appsensor.intrusiondetection.AppSensorIntrusionDetector".java_Class().ctor();
+    var intrusionStore =  intructionDetector.java_Invoke("getIntrusionStore");
+    var intrusionRecord =  intrusionStore.java_Invoke("getIntrusionRecordForSystemUser");
+
+    if (appSensorException.valid())
+    {
+        var exception = "java.lang.Exception".java_Class().ctor(new java.lang.Object[] { appSensorException.java_String()} );
+        var appSensorIntrusion = "org.owasp.appsensor.AppSensorIntrusion".java_Class()
+                                    .ctor(new java.lang.Object[] { exception});
+
+        var addIntrusionToRecord = intrusionRecord.getClass().getMethods().Where((method)=>method.str().contains("addIntrusionToRecord")).first();
+        addIntrusionToRecord.invoke(intrusionRecord, new  java.lang.Object[] { appSensorIntrusion});
+    }
+
+    //var intrusionsObserved = intrusionRecord.java_Invoke("getCopyIntrusionsObserved");
+    //var AppSensorIntrusions = intrusionsObserved.java_Invoke("toArray").getElementsFromArray();
+}
+
+
+<h4>Create AppSensor Exception..</h4>
+
+@if (appSensorException.notValid())
+{
+    @:<div class ="alert alert-error">please provide the value in the ex get parameter</div>
+}
+else
+{
+    @:<div class ="alert alert-success">Exception added: @appSensorException</div>
+}
+<hr/>
+<a href="AppSensor_Logs">View AppSensor Logs</a>
